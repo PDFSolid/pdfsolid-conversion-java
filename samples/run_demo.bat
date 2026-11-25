@@ -2,7 +2,7 @@
 set SRC_DIR=src
 set BIN_DIR=bin
 set OUTPUT_DIR=output
-set LIB_JAR=lib\pdfsolidconversionsdk.jar
+set LIB_JAR=..\lib\pdfsolidconversionsdk.jar
 
 if not exist "%BIN_DIR%" mkdir "%BIN_DIR%"
 if not exist "%OUTPUT_DIR%" mkdir "%OUTPUT_DIR%"

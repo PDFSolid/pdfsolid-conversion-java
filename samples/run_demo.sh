@@ -3,7 +3,7 @@
 SRC_DIR="src"
 BIN_DIR="bin"
 OUTPUT_DIR="output"
-LIB_JAR="lib/cpdfconversionsdk.jar"
+LIB_JAR="../lib/pdfsolidconversionsdk.jar"
 
 mkdir -p "$BIN_DIR"
 mkdir -p "$OUTPUT_DIR"

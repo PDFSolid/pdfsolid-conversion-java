@@ -33,17 +33,19 @@ class TaskCallback implements ConvertCallback {
 
 public class App {
     public static void main(String[] args) throws Exception {
-        ErrorCode errorCode = LibraryManager.licenseVerify("D:\\sdk_package\\license.xml");
-        if (errorCode != ErrorCode.SUCCESS) {
-            return;
-        }
-
         if (args.length == 0) {
             throw new IllegalArgumentException("Please pass samples base path as args[0].");
         }
 
         String pwd = args[0];
         Path basePath = Paths.get(pwd);
+
+        // Pass the license file path, not its content.
+        ErrorCode errorCode = LibraryManager.licenseVerify(basePath.resolve("license.xml").toString());
+        if (errorCode != ErrorCode.SUCCESS) {
+            System.out.println("License verification failed: " + errorCode);
+            return;
+        }
 
         Path pdfPath = basePath.resolve("pdf");
         Path excelTestFilePath = pdfPath.resolve("excel.pdf");
@@ -96,6 +98,11 @@ public class App {
         SearchablePdfOptions searchablePdfOpt = new SearchablePdfOptions();
         searchablePdfOpt.setEnableOcr(true);
         searchablePdfOpt.setLanguages(Arrays.asList(OCRLanguage.ENGLISH));
+        // Optional OCR pre-processing: classify/correct page orientation and dewarp
+        // the page image before recognition. Available on every conversion except
+        // PDF to image, and only takes effect when OCR is enabled.
+        searchablePdfOpt.setEnableDocumentOrientationClassification(true);
+        searchablePdfOpt.setEnableDocumentDewarp(true);
         CPDFConversion.startPDFToSearchablePdf(wordWithOCRTestFilePath.toString(), "", outputPath.toString(), searchablePdfOpt, new TaskCallback());
 
         // pdf to ofd
